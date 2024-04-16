@@ -55,6 +55,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'products' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/products'), // Sesuaikan dengan lokasi penyimpanan yang Anda inginkan
+            'url' => env('APP_URL').'/storage/products', // URL untuk mengakses file
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

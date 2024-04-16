@@ -51,38 +51,75 @@ class User extends Authenticatable implements HasMedia
         $this
             ->addMediaCollection('artwork')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/svg']);
-        $this->addMediaConversion('sm')
-            ->width(60)
-            ->height(60)
-            ->performOnCollections('artwork')->nonOptimized()->nonQueued();
 
-        $this->addMediaConversion('md')
-            ->width(120)
-            ->height(120)
-            ->performOnCollections('artwork')->nonOptimized()->nonQueued();
+        // $this->addMediaConversion('sm')
+        //     ->width(60)
+        //     ->height(60)
+        //     ->performOnCollections('artwork')->nonOptimized()->nonQueued();
 
-        $this->addMediaConversion('lg')
-            ->width(300)
-            ->height(300)
-            ->performOnCollections('artwork')->nonOptimized()->nonQueued();
+        // $this->addMediaConversion('md')
+        //     ->width(800)
+        //     ->height(800)
+        //     ->performOnCollections('artwork')->nonOptimized()->nonQueued();
+
+        // $this->addMediaConversion('lg')
+        //     ->width(300)
+        //     ->height(300)
+        //     ->performOnCollections('artwork')->nonOptimized()->nonQueued();
     }
 
 
-    public function getArtworkUrlLgAttribute($value)
-    {
-        $media = $this->getFirstMedia('artwork');
-        if (!$media) {
-            if (isset($this->log) && isset($this->log->artwork_url)) {
-                return $this->log->artwork_url;
+    // public function getArtworkUrlLgAttribute($value)
+    // {
+    //     $media = $this->getFirstMedia('artwork');
+    //     if (!$media) {
+    //         if (isset($this->log) && isset($this->log->artwork_url)) {
+    //             return $this->log->artwork_url;
+    //         } else {
+    //             return asset('common/default/profile.png');
+    //         }
+    //     } else {
+    //         if ($media->disk != 'public') {
+    //             return $media->getTemporaryUrl(Carbon::now()->addMinutes(intval(1140)), 'md');
+    //         } else {
+    //             return $media->getFullUrl('md');
+    //         }
+    //     }
+    // }
+
+        public function getArtworkUrlLgAttribute($value)
+        {
+            $media = $this->getFirstMedia('artwork');
+            if (!$media) {
+                if (isset($this->log) && isset($this->log->artwork_url)) {
+                    return $this->log->artwork_url;
+                } else {
+                    return asset('common/default/profile.png');
+                }
             } else {
-                return asset('common/default/profile.png');
-            }
-        } else {
-            if ($media->disk != 'public') {
-                return $media->getTemporaryUrl(Carbon::now()->addMinutes(intval(1140)), 'md');
-            } else {
-                return $media->getFullUrl('md');
+                if ($media->disk != 'products') {
+                    return $media->getTemporaryUrl(Carbon::now()->addMinutes(intval(1140)), 'lg');
+                } else {
+                    return $media->getFullUrl();
+                }
             }
         }
-    }
+
+        // public function getArtworkUrlLgAttribute($value)
+        // {
+        //     $media = $this->getFirstMedia('artwork');
+        //     if (!$media) {
+        //         if (isset($this->log) && isset($this->log->artwork_url)) {
+        //             return $this->log->artwork_url;
+        //         } else {
+        //             return asset('common/default/profile.png');
+        //         }
+        //     } else {
+        //         if ($media->disk != 'public') {
+        //             return $media->getTemporaryUrl(Carbon::now()->addMinutes(intval(1140)), 'lg');
+        //         } else {
+        //             return $media->getFullUrl();
+        //         }
+        //     }
+        // }
 }

@@ -31,8 +31,8 @@ class MediaController extends Controller
         ]);
 
         $user->addMediaFromBase64(base64_encode(Image::make($request->file('file'))->orientate()->encode('jpg', 90)->encoded))
-            ->usingFileName(time() . '.jpg')
-            ->toMediaCollection('artwork', 'public');
+            ->usingFileName($request->name. '.jpg')
+            ->toMediaCollection('artwork', 'products');
 
         return response()->json(['message' => 'Media uploaded successfully', 'user' => $user], 200);
     }
